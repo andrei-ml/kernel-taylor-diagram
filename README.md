@@ -1,4 +1,4 @@
-# Nonlinear kernel-based extensions of the Taylor diagram
+# Kernel-based extensions of the Taylor diagram
 
 This repository provides a set of inner products for plotting Taylor diagrams.
 The classic Taylor diagram shows in one plot the centered RMSE, the correlation
