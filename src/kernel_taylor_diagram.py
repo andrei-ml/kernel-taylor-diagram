@@ -11,8 +11,7 @@ TaylorEstimator is the entry point: it creates the estimator of the type given,
 import sys
 
 import numpy as np
-from sklearn.metrics.pairwise import pairwise_kernels
-from sklearn.preprocessing import KernelCenterer
+import sklearn
 
 
 def _check_array(A, name):
@@ -115,7 +114,7 @@ class _KernelEstimatorBase(ClassicEstimator):
         self.kernel_params = _kernel_params(kernel, gamma, degree, coef0, kernel_params)
 
     def _kernel(self, X, Y):
-        return pairwise_kernels(X, Y, metric=self.kernel, **self.kernel_params)
+        return sklearn.metrics.pairwise.pairwise_kernels(X, Y, metric=self.kernel, **self.kernel_params)
 
 
 class KernelClassicEstimator(_KernelEstimatorBase):
@@ -133,7 +132,7 @@ class KernelClassicEstimator(_KernelEstimatorBase):
     def inner_product(self, X: np.ndarray, Y: np.ndarray):
         _check_array(X, 'X')
         _check_array(Y, 'Y')
-        K = KernelCenterer().fit_transform(self._kernel(X, Y))
+        K = sklearn.preprocessing.KernelCenterer().fit_transform(self._kernel(X, Y))
         return np.diag(K).mean()
 
 
@@ -174,8 +173,8 @@ class KernelHSICEstimator(_KernelEstimatorBase):
     def get_feature_objects(self, X, Y):
         _check_array(X, 'X')
         _check_array(Y, 'Y')
-        KX = KernelCenterer().fit_transform(self._kernel(X, X))
-        KY = KernelCenterer().fit_transform(self._kernel(Y, Y))
+        KX = sklearn.preprocessing.KernelCenterer().fit_transform(self._kernel(X, X))
+        KY = sklearn.preprocessing.KernelCenterer().fit_transform(self._kernel(Y, Y))
         return KX, KY
 
     def inner_product(self, KX: np.ndarray, KY: np.ndarray):

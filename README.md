@@ -26,22 +26,32 @@ similarity.
 - *Kernel MMD*: a **probabilistic** similarity based on the maximum mean discrepancy, comparing
   the distributions of X and Y regardless of sample order ([Wickstrøm et al., 2022](https://doi.org/10.1007/978-3-031-17030-0_10)).
 
-`TaylorEstimator` creates the estimator of any of these types by name.
 
 ---
 
 ## Installation
 
-Clone the repository and install it as a package:
+**With module installation.** Install the modules `kernel_taylor_diagram` and `taylor_diagram_plot` with
+their dependencies, to import them in your own scripts:
+
+```bash
+pip install git+https://github.com/andrei-ml/kernel-taylor-diagram.git
+```
+
+**Without module installation.** Clone the repository and install only the dependencies:
 
 ```bash
 git clone https://github.com/andrei-ml/kernel-taylor-diagram.git
 cd kernel-taylor-diagram
-pip install .
+pip install -r requirements.txt
 ```
 
-This installs the dependencies (numpy, scipy, scikit-learn, matplotlib) and the modules
-`kernel_taylor_diagram` and `taylor_diagram_plot`.
+Then see the import example in the notebook [demo1_synthetic_example.ipynb](demo1_synthetic_example.ipynb).
+
+**To run the notebook**, additionally install Jupyter:  
+```bash
+pip install jupyter
+```
 
 ---
 

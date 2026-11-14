@@ -5,10 +5,13 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "kernel_taylor_diagram"
 version = "0.1.0"
+description = "Kernel extensions of the Taylor diagram"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.9"
 dependencies = [
     "numpy",
-    "scipy",
-    "scikit-learn",
+    "scikit-learn>=1.6",
     "matplotlib"
 ]
 
