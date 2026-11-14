@@ -71,7 +71,7 @@ res = estimator.compute(X, Y)
 
 The notebook [demo1_synthetic_example.ipynb](demo1_synthetic_example.ipynb) introduces the
 Taylor diagram, kernels and centered kernel matrices, and compares the four inner products on
-synthetic 2D data. Run it from the repository root.
+synthetic 2D data.
 
 ---
 

@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=77.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,7 +7,8 @@ name = "kernel_taylor_diagram"
 version = "0.1.0"
 description = "Kernel extensions of the Taylor diagram"
 readme = "README.md"
-license = {file = "LICENSE"}
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.9"
 dependencies = [
     "numpy",
