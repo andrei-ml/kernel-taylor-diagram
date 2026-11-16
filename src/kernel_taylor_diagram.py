@@ -185,23 +185,72 @@ class KernelHSICEstimator(_KernelEstimatorBase):
 
 
 class TaylorEstimator:
-    '''
-        Taylor diagram statistics of the type given:
+    """
+    Taylor diagram statistics of a tested dataset Y with respect to a reference dataset X.
 
-            'classic'          ClassicEstimator
-            'kernel_classic'   KernelClassicEstimator
-            'kernel_mmd'       KernelMMDEstimator
-            'kernel_hsic'      KernelHSICEstimator
+    Parameters
+    ----------
+    td_type : str
+        Type of the diagram, which selects the estimator and its inner product of X and Y.
 
-        The other arguments are passed to the estimator of that type, so only the type is
-        needed for the defaults, for example
-            TaylorEstimator('kernel_hsic')
-            TaylorEstimator('kernel_hsic', normalized=True, gamma=0.5)
+        - ``'classic'``: covariance of paired samples (ClassicEstimator).
+        - ``'kernel_classic'``: covariance of paired samples in the feature space of the
+          kernel (KernelClassicEstimator).
+        - ``'kernel_hsic'``: HSIC, the mean elementwise product of the centered kernel
+          matrices (KernelHSICEstimator).
+        - ``'kernel_mmd'``: dot product of the kernel mean embeddings (KernelMMDEstimator).
+    **kwargs
+        Keyword arguments passed to the estimator of the type td_type. The kernel and its parameters follow sklearn's
+        ``sklearn.metrics.pairwise.pairwise_kernels``, with the same names and meanings.
 
-        X: [n_samples, ...]
+        - ``normalized`` (bool, default False): all types. If True, std_Y and rmse are
+          divided by std_X, so that the reference has std 1.
+        - ``centered`` (bool, default True): ``'classic'`` only. If True, the mean of each
+          feature is subtracted, which gives covariances and the centered RMSE. If False,
+          the uncentered second moments are used. If ``td_type!='classic'``, a TypeError is raised, as the kernel types always center as their
+          inner product requires.
+        - ``kernel`` (str or callable, default ``'rbf'``): kernel types only. Name of a
+          sklearn pairwise kernel, such as ``'rbf'``, ``'linear'``, ``'poly'`` or
+          ``'sigmoid'``, or a callable k(x, y). The same kernel is used for X and Y. Ignored if ``td_type=='classic'``.
+        - ``gamma`` (float or None, default None): kernel types only. Coefficient of
+          ``'rbf'``, ``'poly'`` and ``'sigmoid'``. For the Gaussian kernel
+          exp(-gamma |x - y|^2) of width sigma, gamma = 1 / (2 sigma^2). None means
+          1 / n_features. Ignored if ``td_type=='classic'``.
+        - ``degree`` (int, default 3): kernel types only. Degree of ``'poly'``.Ignored if ``td_type=='classic'``.
+        - ``coef0`` (float, default 1): kernel types only. Constant term of ``'poly'`` and
+          ``'sigmoid'``. Ignored if ``td_type=='classic'``.
+        - ``kernel_params`` (dict or None, default None): kernel types only. Keyword
+          arguments of a callable kernel. Ignored if ``td_type=='classic'``.
 
-        Y: [n_samples, ...]
-    '''
+    compute(X, Y)
+    -------------
+    X : ndarray of shape (n_samples, n_features)
+        The reference, for example observations.
+    Y : ndarray of shape (n_samples, n_features)
+        The tested dataset, for example a model, paired with X sample by sample. For
+        ``'kernel_hsic'`` the number of features may differ from that of X, and for
+        ``'kernel_mmd'`` the number of samples may differ, as it compares distributions.
+
+    Returns
+    -------
+    dict
+        - ``'std_X'``: standard deviation of X, the radius of the reference point on the
+          horizontal axis (1 if normalized).
+        - ``'std_Y'``: standard deviation of Y, the radius of the point of Y.
+        - ``'corr'``: correlation of X and Y, whose arccos is the polar angle of the point
+          of Y.
+        - ``'rmse'``: centered root-mean-square difference of X and Y, the distance between
+          the point of Y and the reference point.
+
+        Several tested datasets are compared with the same reference by calling
+        compute(X, Y) for each of them.
+
+    Examples
+    --------
+    >>> TaylorEstimator('classic', normalized=True).compute(X, Y)
+    >>> TaylorEstimator('kernel_hsic', normalized=True, gamma=0.5).compute(X, Y)
+    >>> TaylorEstimator('kernel_mmd', normalized=True, kernel='poly', degree=2).compute(X, Y)
+    """
     TYPES = {'classic': ClassicEstimator,
              'kernel_classic': KernelClassicEstimator,
              'kernel_mmd': KernelMMDEstimator,
