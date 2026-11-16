@@ -20,10 +20,10 @@ similarity.
 
 - *Classic*: the covariance between the datasets.
 - *Kernel classic*: the **nonlinear** covariance between the paired samples mapped to a
-  reproducing kernel Hilbert space (RKHS).
+  reproducing kernel Hilbert space.
 - *Kernel HSIC*: the similarity between the centered kernel matrices of X and Y, based on the
-  Hilbert-Schmidt Independence Criterion. The correlation is the centered kernel alignment.
-- *Kernel MMD*: a **probabilistic** similarity based on the maximum mean discrepancy, comparing
+  Hilbert-Schmidt Independence Criterion (HSIC). The correlation is the centered kernel alignment.
+- *Kernel MMD*: a **probabilistic** similarity based on the maximum mean discrepancy (MMD), comparing
   the distributions of X and Y regardless of sample order ([Wickstrøm et al., 2022](https://doi.org/10.1007/978-3-031-17030-0_10)).
 
 
