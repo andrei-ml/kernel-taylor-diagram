@@ -11,12 +11,12 @@ similarity.
 
 ## Types of inner product implemented
 
-| Type             | Compares                               | Insensitive to                     |
-|------------------|----------------------------------------|------------------------------------|
-| `classic`        | the samples pair by pair, linearly     | how the error spreads over samples |
-| `kernel_classic` | paired samples, with a tolerance σ     | the size of errors beyond σ        |
-| `kernel_hsic`    | the internal structure of each dataset | rotations, reflections and shifts  |
-| `kernel_mmd`     | the distributions of the points        | the order of the samples           |
+| Type             | Compares                               | Insensitive to                        |
+|------------------|----------------------------------------|---------------------------------------|
+| `classic`        | the samples pair by pair, linearly     | how the error spreads over samples    |
+| `kernel_classic` | paired samples, with a tolerance σ     | the size of errors much larger than σ |
+| `kernel_hsic`    | the internal structure of each dataset | rotations, reflections and shifts     |
+| `kernel_mmd`     | the distributions of the points        | the order of the samples              |
 
 - *Classic*: the covariance between the datasets.
 - *Kernel classic*: the **nonlinear** covariance between the paired samples mapped to a
